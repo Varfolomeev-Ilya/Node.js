@@ -1,14 +1,17 @@
 const express = require('express');
 const bodyParser = require('body-parser');
+const Sequelize = require('sequelize');
 
-const http = require('http')
-const hostname = '127.0.0.1'
-const port = 3000
-const server = http.createServer((req, res) => {
-  res.statusCode = 200
-  res.setHeader('Content-Type', 'text/plain')
-  res.end('Hello World\n')
-})
-server.listen(port, hostname, () => {
-  console.log(`Server running at http://${hostname}:${port}/`)
-})
+const app = express();
+const http = require('http');
+const server = http.createServer(app);
+
+// const sequelize = new Sequelize("postgres", "users", "12345678", {
+//   dialect: 'postgres'
+// });
+
+app.use(function (request, response) {
+  response.sendFile(__dirname + "/main/index.html");
+});
+
+app.listen(4000, () => console.log("Server started"));
