@@ -1,11 +1,11 @@
 const express = require('express');
 const bodyParser = require('body-parser');
 const Sequelize = require('sequelize');
+
 const env = require('dotenv');
 const jsonParser = require('json-parser');
 
 const app = express();
-const http = require('http');
 app.use(bodyParser.urlencoded({ extended: false }));
 
 const accountController = require('./controllers/accountController');
@@ -22,7 +22,6 @@ app.use("/", userRouter, accountRouter);
 
 const sequelize = new Sequelize("wolfessa_users", "wolfessa", "wolfessa_2000", {
   dialect: "postgres",
-  host: "localhost"
 });
 
 sequelize.sync().then(function() {

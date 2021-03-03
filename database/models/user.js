@@ -1,5 +1,3 @@
-"use strict"
-
 module.exports = function(sequelize, Sequelize) {
   const User = sequelize.define("user", {
     fullName: {
@@ -16,12 +14,6 @@ module.exports = function(sequelize, Sequelize) {
     },
     birthday: {
       type: Sequelize.STRING,
-      allowNull: false
-    },
-    id: {
-      type: Sequelize.INTEGER,
-      autoIncrement: true,
-      primaryKey: true,
       allowNull: false
     },
   });
