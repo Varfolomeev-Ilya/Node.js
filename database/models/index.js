@@ -8,17 +8,13 @@ const env = process.env.NODE_ENV || "development";
 const config = envConfigs[env];
 const db = {};
 
-let sequelize;
-// if (config.url) {
-//   sequelize = new Secuelize(config.url, config);
-// } else {
-//   sequelize = new Sequelize (
-//     config.database,
-//     config.username,
-//     config.password,
-//     config
-//   );
-// }
+const sequelize = new Sequelize(config.url, config); 
+
+sequelize.sync().then(function() {
+  console.log("database load completed successfully ")
+}).catch(function(err) {
+  console.log(err, "Something went wrong with the Database Update!")
+});
 
 fs.readdirSync(__dirname)
   .filter((file) => {
@@ -26,13 +22,16 @@ fs.readdirSync(__dirname)
   })
 
   .forEach((file) => {
-    const model = require(path.join(__dirname, file));
+    const model = require(path.join(__dirname, file))(
+      sequelize,
+      Sequelize.DataTypes
+    );
     db[model.name] = model;
   });
 
   Object.keys(db).forEach((modelName) => {
     if (db[modelName].associate) {
-    db[modelName].associate(db);
+      db[modelName].associate(db);
     }
 });
 
