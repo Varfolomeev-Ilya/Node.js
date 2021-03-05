@@ -7,8 +7,7 @@ exports.putUser = async (req, res) => {
     if (!fullName && !email && !password && !birthday) {
       throw new Error("data provided");
     };
-    models.User.update(
-    {
+    models.User.update({
       fullName: fullName,
       email: email,
       password: bcrypt.hashSync(password, 10),
@@ -30,9 +29,23 @@ exports.getAllUsers = async (req, res) => {
       attributes: { exclude: ["password"]}
     });
     res.status(200).json({ message: "All users", allUsers });
-      } catch (err) {
+    } catch (err) {
       res.status(500).json({ error: true, message: err.message });
-      }
-}
+    }
+};
+
+exports.deleteUser = async (req, res) => {
+  try {
+    const id = req.params.id;
+      await models.User.destroy({
+        where: {
+          id: id
+        },
+      });
+    res.status(200).json({ message: "User deleted", id});
+  } catch (err) {
+    res.status(500).json({ error: true, message: err.message});
+  }
+};
 
 

@@ -1,6 +1,7 @@
-// const express = require('express');
-// const accountController = require ('../controllers/userController.js');
-// const accountRouter = express.Router();
+const express = require('express');
+const accountController = require ('../controllers/accountController.js');
+const accountRouter = express.Router();
 
-// accountRouter.use("/", accountController);
-// accountRouter.use("/", accountController);
+accountRouter.post("/signup", accountController.signUp);
+
+module.exports = accountRouter; 

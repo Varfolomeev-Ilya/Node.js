@@ -2,21 +2,15 @@ const express = require('express');
 const bodyParser = require('body-parser');
 const app = express();
 
-const accountController = require('./controllers/accountController');
 const userRouter = require('./routes/userRouter.js');
-const accountRouter = express.Router();
+const accountRouter = require('./routes/accountRouter.js');
+const urlencodedParser = (bodyParser.urlencoded({ extended: false }));
 
-app.use(bodyParser.urlencoded({ extended: false }));
+app.use(bodyParser.json());
 
-accountRouter.use("/signin", function(req, res){
-  res.send("Sign in");
-});
+app.use("/", urlencodedParser, userRouter, accountRouter);
 
-// сопоставляем роутер с конечной точкой юзерс
-app.use("/", userRouter, accountRouter);
-app.use("/users", userRouter);
-
-app.use(function(req, res, next){
+app.use(function(req, res){
   res.status(404).send("Not found")
 });
 
