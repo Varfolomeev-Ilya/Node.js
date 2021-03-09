@@ -3,18 +3,16 @@ const bcrypt = require('bcryptjs')
 
 exports.putUser = async (req, res) => {
   try {
+    const id = req.params.id;
     const { fullName, email, password, birthday } = req.body;
     if (!fullName && !email && !password && !birthday) {
       throw new Error("data provided");
     };
-    models.User.update({
+    await models.User.update({
       fullName: fullName,
-      email: email,
-      password: bcrypt.hashSync(password, 10),
       birthday: birthday,
-      id: req.params.id
     },
-    { where: { email: email } }
+    { where: { id: id } }
     );
     res.status(200).json({ error: "user updated"}) 
   } catch (err) {
