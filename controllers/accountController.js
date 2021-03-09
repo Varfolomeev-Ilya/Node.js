@@ -5,9 +5,9 @@ exports.signUp = async (req, res) => {
   try {
     const { fullName, email, password, birthday } = req.body;
     const oldUser = await models.User.findOne({ where: { email: email } });
-    if (oldUser) {
-      throw new Error("Email alredy used");
-    }
+      if (oldUser) {
+        throw new Error("Email alredy used");
+      }
     const passwordHash = bcrypt.hashSync(password, 10);
     await models.User.create({
       fullName: fullName,
@@ -20,4 +20,24 @@ exports.signUp = async (req, res) => {
       res.status(400).json({ message: err.message });  
   }
 };  
+
+exports.logIn = async (req, res) => {
+  try {
+    const { email, password } = req.body;
+    const user = await models.User.findOne({
+      where : { email: email
+    },
+    });
+    if (!user) {
+      res.status(400).json({ message: "incorrect email" });
+    };
+    const iscorrect = await bcrypt.compare(password, user.password);
+    if (!iscorrect) {
+      res.status(400).json({ message: "incorrect password" });
+    };
+    res.status(200).json({ message : "successful login"});
+  } catch (err) {
+      res.status(400).json({ message: err.message});
+  }
+};
 

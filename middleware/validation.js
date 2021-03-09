@@ -1,4 +1,4 @@
-const { celebrate, Joi, errors} = require('celebrate');
+const { celebrate, Joi } = require('celebrate');
 
 const signUpValidation = celebrate({
   body: Joi.object().keys({
@@ -16,4 +16,11 @@ const updateUserValidation = celebrate({
   }),
 });
 
-module.exports =  { signUpValidation, updateUserValidation };
+const loginValidation = celebrate({
+  body: Joi.object().keys({
+    password: Joi.string().min(8).required(),
+    email: Joi.string().min(5).email().required(),
+  }),
+})
+
+module.exports =  { signUpValidation, updateUserValidation, loginValidation };
