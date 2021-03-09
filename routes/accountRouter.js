@@ -4,6 +4,6 @@ const accountRouter = express.Router();
 const { signUpValidation, loginValidation } = require('../middleware/validation');
 
 accountRouter.post("/signup",signUpValidation ,accountController.signUp);
-accountRouter.post("/login",loginValidation, accountController.logIn);
+accountRouter.post("/signin",loginValidation, accountController.signIn);
 
 module.exports = accountRouter; 

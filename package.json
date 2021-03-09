@@ -18,7 +18,8 @@
     "jsonwebtoken": "^8.5.1",
     "pg": "^8.5.1",
     "postgres": "^1.0.2",
-    "sequelize": "^6.5.0"
+    "sequelize": "^6.5.0",
+    "uuid": "^8.3.2"
   },
   "devDependencies": {
     "sequelize-cli": "^6.2.0"
