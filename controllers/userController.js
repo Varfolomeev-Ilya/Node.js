@@ -1,4 +1,4 @@
-const models = require('../database/models');
+const models = require('../db/models');
 const bcrypt = require('bcryptjs')
 
 exports.putUser = async (req, res) => {

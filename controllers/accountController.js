@@ -1,7 +1,8 @@
 require("dotenv").config();
-const models = require('../database/models');
+const models = require('../db/models');
 const bcrypt = require('bcryptjs');
 const updateTokens = require("../middleware/updateToken");
+const tokenChecker = require("../middleware/checkToken");
 
 exports.signUp = async (req, res) => {
   try {
@@ -17,7 +18,7 @@ exports.signUp = async (req, res) => {
       password: passwordHash,
       birthday: birthday,
     });
-    
+
     res.status(200).json({ message: "New user created" });  
   } catch (err) {
       res.status(400).json({ message: err.message });  
@@ -50,4 +51,3 @@ exports.signIn = async (req, res) => {
       res.status(400).json({ message: err.message});
   }
 };
-
