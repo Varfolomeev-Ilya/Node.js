@@ -63,8 +63,7 @@ const tokenChecker = (req, res, next) => {
   } catch (err) {
     res.status(401).json({ message : err.message})
   }
-    req.body = jwt.verify;
-    next();   
+  next();   
 }; 
 
 module.exports = { tokenChecker, updateTokens };
