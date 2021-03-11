@@ -2,7 +2,6 @@ const fs = require("fs");
 const path = require("path");
 const Sequelize = require("sequelize");
 const envConfigs = require("../config/config");
-
 const basename = path.basename(__filename);
 const env = process.env.NODE_ENV || "development";
 const config = envConfigs[env];
@@ -32,7 +31,7 @@ fs.readdirSync(__dirname)
   Object.keys(db).forEach((modelName) => {
     if (db[modelName].associate) {
       db[modelName].associate(db);
-    }
+    };
 });
 
 db.sequelize = sequelize;

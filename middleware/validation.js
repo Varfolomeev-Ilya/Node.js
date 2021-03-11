@@ -21,6 +21,6 @@ const loginValidation = celebrate({
     password: Joi.string().min(8).required(),
     email: Joi.string().min(5).email().required(),
   }),
-})
+});
 
 module.exports =  { signUpValidation, updateUserValidation, loginValidation };

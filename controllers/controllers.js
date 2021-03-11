@@ -9,7 +9,7 @@ exports.signUp = async (req, res) => {
     const oldUser = await models.User.findOne({ where: { email: email } });
       if (oldUser) {
         throw new Error("Email alredy used");
-      }
+      };
     const passwordHash = bcrypt.hashSync(password, 10);
     await models.User.create({
       fullName: fullName,
@@ -21,14 +21,14 @@ exports.signUp = async (req, res) => {
     res.status(200).json({ message: "New user created" });  
   } catch (err) {
       res.status(400).json({ message: err.message });  
-  }
+  };
 };  
 
 exports.signIn = async (req, res) => {
   try {
     const { email, password } = req.body;
     if (!email) {
-      res.status(400).json({ message: "Invalid email"})
+      res.status(400).json({ message: "Invalid email"});
     };
 
     const user = await models.User.findOne({ where : { email: email } });
@@ -46,7 +46,7 @@ exports.signIn = async (req, res) => {
     res.status(200).json({ message : "successful login", tokens});
   } catch (err) {
       res.status(400).json({ message: err.message});
-  }
+  };
 };
 
 exports.putUser = async (req, res) => {
@@ -67,7 +67,7 @@ exports.putUser = async (req, res) => {
     res.status(200).json({ message: "user updated"}); 
   } catch (err) {
       res.status(400).json({ message: err.message});
-  }
+  };
 };
 
 exports.getAllUsers = async (req, res) => {
@@ -79,7 +79,7 @@ exports.getAllUsers = async (req, res) => {
     res.status(200).json({ message: "All users", allUsers });
     } catch (err) {
         res.status(500).json({ message: err.message });
-    }
+    };
 };
 
 exports.deleteUser = async (req, res) => {
@@ -93,5 +93,5 @@ exports.deleteUser = async (req, res) => {
       res.status(200).json({ message: "User deleted", id});
   } catch (err) {
       res.status(401).json({ message: err.message});
-  }
+  };
 };
