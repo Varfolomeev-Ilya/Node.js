@@ -53,28 +53,19 @@ const updateTokens = async (userId) => {
 };
 
 const tokenChecker = (req, res, next) => {
-
-  // let { authorization } = req.headers;
-    // const token = authorization.replace("Bearer", "");
   try {
     const token = req.headers.authorization.split(" ")[1];
-
-    // if (!authorization || !authorization.startsWith("Bearer")) {
-    //   return res.status(403).json({ message: "No token provided,please log in" });
-    // };
 
     console.log(token);
     jwt.verify(token, secret,(err,decoded) => {
       if (err) {
         return res.status(400).json({ message : "verification is false"});
-      // } else {
-      //   return res.status(200).json({ message : "verification is done"});
       }
     });
     } catch (err) {
       res.status(401).json({ message : err.message})
     }
-    req.body != jwt.verify;
+    req.body = jwt.verify;
     next();   
 }; 
 
