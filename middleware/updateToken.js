@@ -26,14 +26,14 @@ const generateRefreshToken = () => {
   };
 };
 
-const updateDbRefreshToken = async (tokenId, userId) => {
+const updateDRefreshToken = async (tokenId, userId) => {
   try {
     let token;
     token = await models.token.findOne({ where: { userId } });
     if (!token) return await models.token.create({ userId, tokenId });
     return await token.update({ userId, tokenId });
-  } catch (error) {
-      console.log(error.message);
+  } catch (err) {
+      res.status(401).json({ message: err.message});
       throw error;
   };
 };
@@ -42,9 +42,9 @@ const updateTokens = async (userId) => {
   const accessToken = generateAccessToken(userId);
   const refreshToken = generateRefreshToken();
   try {
-    await updateDbRefreshToken(refreshToken.id, userId);
-  } catch (error) {
-    console.log("token has not been updated", error.message);
+    await updateDRefreshToken(refreshToken.id, userId);
+  } catch (err) {
+     res.status(401).json({ err:true, message: "token has not been updated"});
   }
   return {
     accessToken,
@@ -52,27 +52,30 @@ const updateTokens = async (userId) => {
   };
 };
 
-module.exports = updateTokens;
-
-const jwtSecret = process.env.JWT_SECRET;
-
 const tokenChecker = (req, res, next) => {
-  const { authorization } = req.headers;
 
-  if (!authorization || !authorization.startsWith("Bearer")) {
-    return res.status(403).send({ message: "No token provided,please log in" });
-    }
-
-  const token = authorization.replace("Bearer", "");
-  let payload;
-  
+  // let { authorization } = req.headers;
+    // const token = authorization.replace("Bearer", "");
   try {
-    payload = jwt.verify(token, jwtSecret);
-    } catch (err) {
-        res.status(401).json({ message: "Unauthorized access." });
-    }
-    req.user = payload;
-    next();
-} 
+    const token = req.headers.authorization.split(" ")[1];
 
-module.exports = tokenChecker;
+    // if (!authorization || !authorization.startsWith("Bearer")) {
+    //   return res.status(403).json({ message: "No token provided,please log in" });
+    // };
+
+    console.log(token);
+    jwt.verify(token, secret,(err,decoded) => {
+      if (err) {
+        return res.status(400).json({ message : "verification is false"});
+      // } else {
+      //   return res.status(200).json({ message : "verification is done"});
+      }
+    });
+    } catch (err) {
+      res.status(401).json({ message : err.message})
+    }
+    req.body != jwt.verify;
+    next();   
+}; 
+
+module.exports = { tokenChecker, updateTokens };

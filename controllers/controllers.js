@@ -1,7 +1,7 @@
 require("dotenv").config();
 const models = require('../db/models');
 const bcrypt = require('bcryptjs');
-const updateTokens = require("../middleware/updateToken");
+const { updateTokens } = require("../middleware/updateToken");
 
 exports.signUp = async (req, res) => {
   try {
@@ -42,10 +42,8 @@ exports.signIn = async (req, res) => {
     };
 
     const tokens = await updateTokens(user.id);
-
-    res.json({tokens});
-
-    res.status(200).json({ message : "successful login"});
+    
+    res.status(200).json({ message : "successful login", tokens});
   } catch (err) {
       res.status(400).json({ message: err.message});
   }
@@ -66,7 +64,7 @@ exports.putUser = async (req, res) => {
       id: id 
       },
     });
-    res.status(200).json({ error: "user updated"}); 
+    res.status(200).json({ message: "user updated"}); 
   } catch (err) {
       res.status(400).json({ message: err.message});
   }
@@ -92,8 +90,8 @@ exports.deleteUser = async (req, res) => {
           id: id
         },
       });
-    res.status(200).json({ message: "User deleted", id});
+      res.status(200).json({ message: "User deleted", id});
   } catch (err) {
-      res.status(500).json({ message: err.message});
+      res.status(401).json({ message: err.message});
   }
 };
