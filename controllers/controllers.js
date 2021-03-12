@@ -64,7 +64,7 @@ exports.putUser = async (req, res) => {
       id: id 
       },
     });
-    res.status(200).json({ message: "user updated"}); 
+    res.status(200).json({ message: "user updated", id}); 
   } catch (err) {
       res.status(400).json({ message: err.message});
   };
@@ -78,16 +78,29 @@ exports.getAllUsers = async (req, res) => {
     });
     res.status(200).json({ message: "All users", allUsers });
     } catch (err) {
-        res.status(500).json({ message: err.message });
+        res.status(401).json({ message: err.message });
     };
 };
+
+exports.getOneUser = async (req, res) => {
+  try{
+    const id = req.params.id;
+    const oneUser = await models.User.findOne({
+      where: { id },
+      attributes: { exclude: ["password"]}
+    });
+    res.status(200).json({ message: "User", oneUser});
+  } catch (err) {
+      res.status(401).json({ message: err.message });
+  };
+}
 
 exports.deleteUser = async (req, res) => {
   try {
     const id = req.params.id;
       await models.User.destroy({
         where: {
-          id: id
+          id
         },
       });
       res.status(200).json({ message: "User deleted", id});

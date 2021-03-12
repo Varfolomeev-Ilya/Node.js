@@ -9,6 +9,7 @@ loginRouters.post("/signin",loginValidation, controllers.signIn);
 loginRouters.put("/update/:id", updateUserValidation, tokenChecker, controllers.putUser);
 loginRouters.get("/users", tokenChecker, controllers.getAllUsers);
 loginRouters.delete("/delete/:id", tokenChecker, controllers.deleteUser);
+loginRouters.get("/user/:id", controllers.getOneUser);
 
 module.exports = loginRouters;
 
